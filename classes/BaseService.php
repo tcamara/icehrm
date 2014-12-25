@@ -586,13 +586,44 @@ class BaseService{
 		$settings = new Setting();
 		$settings->Load("name = ?",array("Instance : ID"));
 		
-		if($settings->name != "Instance : ID"){
+		if($settings->name != "Instance : ID" || empty($settings->value)){
 			$settings->value = md5(time());
 			$settings->name = "Instance : ID";
 			$settings->Save();
 		}
 		
 		return $settings->value;
+	}
+	
+	public function getInstanceKey(){
+		$settings = new Setting();
+		$settings->Load("name = ?",array("Instance: Key"));
+		if($settings->name != "Instance: Key"){
+			return null;	
+		}
+		return $settings->value;
+	}
+	
+	public function validateInstance(){
+		$instanceId = $this->getInstanceId();
+		if(empty($instanceId)){
+			return true;
+		}
+		
+		$key = $this->getInstanceKey();
+		
+		if(empty($key)){
+			return false;
+		}
+		
+		$data = AesCtr::decrypt($key, $instanceId, 256);
+		error_log("validateInstance ".$data);
+		$arr = explode("|",$data);
+		if($arr[0] == "IceHrm" && $arr[1] == $instanceId){
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public function loadModulePermissions($group, $name, $userLevel){
