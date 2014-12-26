@@ -111,7 +111,10 @@
 			<?php }?>
 
 			<?php if(!isset($proVersion) && isset($moduleName) && $moduleName == 'dashboard' && $user->user_level == 'Admin' && !$baseService->validateInstance()){?>
-			modJs.showMessage("Validate IceHrm Instance",'Please get your Instance Key from here:<br/> <a target="_blank" href="http://icehrm.com/generateInstanceKey.php?id=<?=$baseService->getInstanceId()?>">http://icehrm.com/generateInstanceKey.php?id=<?=$baseService->getInstanceId()?></>');
+			$("#verifyModel").modal({
+				  backdrop: 'static'
+			});
+			//modJs.showMessage("Validate IceHrm Instance",'Please get your Instance Key from here:<br/> <a target="_blank" href="http://icehrm.com/generateInstanceKey.php?id=<?=$baseService->getInstanceId()?>">http://icehrm.com/generateInstanceKey.php?id=<?=$baseService->getInstanceId()?></>');
 			<?php }?>
 		});
 		

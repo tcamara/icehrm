@@ -595,6 +595,17 @@ class BaseService{
 		return $settings->value;
 	}
 	
+	public function setInstanceKey($key){
+		$settings = new Setting();
+		$settings->Load("name = ?",array("Instance: Key"));
+		if($settings->name != "Instance: Key"){
+			$settings->name = "Instance: Key";
+			
+		}
+		$settings->value = $key;
+		$settings->Save();
+	}
+	
 	public function getInstanceKey(){
 		$settings = new Setting();
 		$settings->Load("name = ?",array("Instance: Key"));

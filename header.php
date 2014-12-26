@@ -257,6 +257,22 @@ $meta = json_decode(file_get_contents(MODULE_PATH."/meta.json"),true);
 			    }
 			    return str;	
 			}
+
+			function verifyInstance(key){
+				var object = {};
+				object['a'] = "verifyInstance";
+				object['key'] = key;
+				$.post(this.baseUrl, object, function(data) {
+					if(data.status == "SUCCESS"){
+						$("#verifyModel").hide();
+						$('body').removeClass('modal-open');
+						$('.modal-backdrop').remove();	
+						alert("Success: IceHrm Instance Verified");
+					}else{
+						alert("Error: "+data.message);
+					}
+				},"json");
+			}
 		</script>
 		
         <header id="delegationDiv" class="header">
@@ -366,7 +382,7 @@ $meta = json_decode(file_get_contents(MODULE_PATH."/meta.json"),true);
 	                                    <li>
 	                                    	<a target="_bloank" href="http://blog.icehrm.com/"><h5>Administrators' Guide</h5></a>
 	                                    	<a target="_bloank" href="https://bitbucket.org/thilina/icehrm-opensource/issues?status=new&status=open"><h5>Support/Bug Reporting</h5></a>
-	                                    	<a href="#" onclick="modJs.showMessage('About','<p>iCE Hrm - Human Resource Management<br/>Version 8.1<br/>Release Date: 2014/12/24</p>')"><h5>About</h5></a>
+	                                    	<a href="#" onclick="modJs.showMessage('About','<p>iCE Hrm - Human Resource Management<br/>Version 8.2<br/>Release Date: 2014/12/26</p>')"><h5>About</h5></a>
 	                                    </li>
 	                             </ul>
 	                        </li>

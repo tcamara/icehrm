@@ -39,6 +39,11 @@ Copy contents of icehrm_v7.1.zip to existing icehrm directory except app directo
 
 Execute 'icehrmdb_os_update_v6.1_to_v7.1.sql' on your icehrm database
 
+Release note v8.2
+-----------------
+### Features
+*Instance verification added
+
 Release note v8.1
 -----------------
 ### Fixes
