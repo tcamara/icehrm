@@ -1,3 +1,13 @@
+Release note v8.3
+-----------------
+### Fixes
+* Fix user table issue on windows, this will resolve errors such as: (Note that this fix has no effect on unix based installations)
+ * Admin not able to view user uploaded documents
+ * Admin not able to upload documants for users
+ * Admin can not view employee attendance records
+ * Employee projects can not be added
+
+
 Release note v8.2
 -----------------
 ### Features

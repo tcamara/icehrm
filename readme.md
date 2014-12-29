@@ -17,6 +17,11 @@ Once the application is installed use the username = admin and password = admin 
 
 Note: Please rename or delete the install folder (<ice hrm root>/app/install) since it could pose a security threat to your iCE Hrm instance.
 
+Update icehrm v8.2 to v8.3
+--------------------------
+
+Copy server.includes.inc.php from v8.3 to your icehrm folder 
+
 Update icehrm v7.x to v8.0
 --------------------------
 Delete all folders except <icehrm>/app directory
