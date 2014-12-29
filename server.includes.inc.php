@@ -10,6 +10,9 @@ $ADODB_ASSOC_CASE = 2;
 //detect admin and user modules
 if(defined("MODULE_PATH")){
 	$tArr = explode("/", MODULE_PATH);
+	if(count($tArr) == 1){
+		$tArr = explode("\\", MODULE_PATH);
+	}
 	if(!defined('MODULE_TYPE')){
 		if(count($tArr) >= 2){
 			define('MODULE_TYPE',$tArr[count($tArr)-2]);
