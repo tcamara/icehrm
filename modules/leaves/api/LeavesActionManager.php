@@ -408,16 +408,16 @@ class LeavesActionManager extends SubActionManager{
 		
 		$availableLeaveArray = array();
 		
-		$currentLeaves = intval($rule->default_per_year);
+		$currentLeaves = floatval($rule->default_per_year);
 		
 		//If the employee joined in current leave period, his leaves should be calculated proportional to joined date
 		if($employee->joined_date != "0000-00-00 00:00:00" && !empty($employee->joined_date)){
 			if(strtotime($currentLeavePeriod->date_start) < strtotime($employee->joined_date)){
-				$currentLeaves = intval($currentLeaves * (strtotime($currentLeavePeriod->date_end) - strtotime($employee->joined_date))/(strtotime($currentLeavePeriod->date_end) - strtotime($currentLeavePeriod->date_start)));
+				$currentLeaves = floatval($currentLeaves * (strtotime($currentLeavePeriod->date_end) - strtotime($employee->joined_date))/(strtotime($currentLeavePeriod->date_end) - strtotime($currentLeavePeriod->date_start)));
 			}
 		}
 		
-		$availableLeaveArray["total"] = $currentLeaves;
+		$availableLeaveArray["total"] = round($currentLeaves,2);
 		
 		if($rule->leave_accrue == "Yes"){
 			$dateTodayTime = strtotime(date("Y-m-d"));	
@@ -427,10 +427,10 @@ class LeavesActionManager extends SubActionManager{
 			$datediffFromStart = $dateTodayTime - $startTime;
 			$datediffPeriod = $endTime - $startTime;
 			
-			$currentLeaves = intval(ceil(($currentLeaves * $datediffFromStart)/$datediffPeriod));
+			$currentLeaves = floatval(($currentLeaves * $datediffFromStart)/$datediffPeriod);
 		}	
 		
-		$availableLeaveArray["accrued"] = $currentLeaves;
+		$availableLeaveArray["accrued"] = round($currentLeaves,2);
 		
 		$availableLeaveArray["carriedForward"] = 0;
 
@@ -448,17 +448,17 @@ class LeavesActionManager extends SubActionManager{
 				//If the employee joined in this leave period, his leaves should be calculated proportionally
 				if($employee->joined_date != "0000-00-00 00:00:00" && !empty($employee->joined_date)){
 					if(strtotime($prvLeavePeriod->date_start) < strtotime($employee->joined_date)){
-						$avalilable = intval($avalilable * (strtotime($prvLeavePeriod->date_end) - strtotime($employee->joined_date))/(strtotime($prvLeavePeriod->date_end) - strtotime($prvLeavePeriod->date_start)));
+						$avalilable = floatval($avalilable * (strtotime($prvLeavePeriod->date_end) - strtotime($employee->joined_date))/(strtotime($prvLeavePeriod->date_end) - strtotime($prvLeavePeriod->date_start)));
 					}
 				}
 				
 				$approved = $this->countLeaveAmounts($this->getEmployeeLeaves($employee->id, $prvLeavePeriod->id, $leaveTypeId, 'Approved'));
 				
-				$leavesCarriedForward =  intval($avalilable) - intval($approved);
+				$leavesCarriedForward =  floatval($avalilable) - floatval($approved);
 				if($leavesCarriedForward < 0){
 					$leavesCarriedForward = 0;
 				}
-				$availableLeaveArray["carriedForward"] = $leavesCarriedForward;
+				$availableLeaveArray["carriedForward"] =  round($leavesCarriedForward,2);
 				$currentLeaves = intval($currentLeaves) + intval($leavesCarriedForward);
 			}
 		}
