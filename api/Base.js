@@ -726,7 +726,10 @@ IceHRMBase.method('showFilters', function(object) {
       language: 'en'
     });
 	
-	$tempDomObj.find('.select2Field').select2();
+	//$tempDomObj.find('.select2Field').select2();
+	$tempDomObj.find('.select2Field').each(function() {
+		$(this).select2().select2('val', $(this).find("option:eq(0)").val());
+	});
 
 	//var tHtml = $tempDomObj.wrap('<div>').parent().html();
 	this.showDomElement("Edit",$tempDomObj,null,null,true);
@@ -825,7 +828,10 @@ IceHRMBase.method('renderForm', function(object) {
       language: 'en'
     });
 	
-	$tempDomObj.find('.select2Field').select2();
+	//$tempDomObj.find('.select2Field').select2();
+	$tempDomObj.find('.select2Field').each(function() {
+		$(this).select2().select2('val', $(this).find("option:eq(0)").val());
+	});
 	
 	if(this.showSave == false){
 		$tempDomObj.find('.saveBtn').remove();

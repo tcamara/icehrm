@@ -169,7 +169,16 @@ FormValidation.method('checkValues' , function(options) {
 	    	//}else if(inputObject.hasClass('datetimeInput')){
 	    		//inputValue = inputObject.getDate()+":00";
 	    	}else{
-	    		inputValue = (type == "radio" || type == "checkbox")?$("input[name='" + name + "']:checked").val():inputObject.val();
+	    		//inputValue = (type == "radio" || type == "checkbox")?$("input[name='" + name + "']:checked").val():inputObject.val();
+	    		
+	    		inputValue = null;
+	    		if(type == "radio" || type == "checkbox"){
+	    			inputValue = $("input[name='" + name + "']:checked").val()
+	    		}else if(inputObject.hasClass('select2Field')){
+	    			inputValue = $('#'+id).select2('data').id;
+	    		}else{
+	    			inputObject.val();
+	    		}
 	    	}
 		   
 		    var validation = inputObject.attr('validation');
