@@ -175,9 +175,14 @@ FormValidation.method('checkValues' , function(options) {
 	    		if(type == "radio" || type == "checkbox"){
 	    			inputValue = $("input[name='" + name + "']:checked").val()
 	    		}else if(inputObject.hasClass('select2Field')){
-	    			inputValue = $('#'+id).select2('data').id;
+	    			if($('#'+id).select2('data') != null && $('#'+id).select2('data') != undefined){
+	    				inputValue = $('#'+id).select2('data').id;
+	    			}else{
+	    				inputValue = "";
+	    			}
+	    			
 	    		}else{
-	    			inputObject.val();
+	    			inputValue = inputObject.val();
 	    		}
 	    	}
 		   
