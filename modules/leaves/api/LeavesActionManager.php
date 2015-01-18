@@ -139,8 +139,8 @@ class LeavesActionManager extends SubActionManager{
 			$leaves['pendingLeaves'] = floatval($leaveMatrix[1]);
 			$leaves['approvedLeaves'] = floatval($leaveMatrix[2]);
 			$leaves['rejectedLeaves'] = floatval($leaveMatrix[3]);
-			$leaves['availableLeaves'] = floatval($leaveMatrix[0]) - $leaves['pendingLeaves'] -  $leaves['approvedLeaves'];
-			$leaves['tobeAccrued'] = floatval($leaveMatrix[4]['total']) - floatval($leaveMatrix[4]['accrued']);
+			$leaves['availableLeaves'] = round(floatval($leaveMatrix[0]) - $leaves['pendingLeaves'] -  $leaves['approvedLeaves']);
+			$leaves['tobeAccrued'] = round(floatval($leaveMatrix[4]['total']) - floatval($leaveMatrix[4]['accrued']));
 			$leaves['carriedForward'] = floatval($leaveMatrix[4]['carriedForward']);
 			
 			$leaveEntitlementArray[] = $leaves;
@@ -459,7 +459,7 @@ class LeavesActionManager extends SubActionManager{
 					$leavesCarriedForward = 0;
 				}
 				$availableLeaveArray["carriedForward"] =  round($leavesCarriedForward,2);
-				$currentLeaves = intval($currentLeaves) + intval($leavesCarriedForward);
+				$currentLeaves = floatval($currentLeaves) + floatval($leavesCarriedForward);
 			}
 		}
 		
@@ -481,7 +481,7 @@ class LeavesActionManager extends SubActionManager{
 				}
 			}
 		}
-		return floatval($amount);
+		return round(floatval($amount),2);
 	}
 
 	private function getEmployeeLeaves($employeeId,$leavePeriod,$leaveType,$status){
