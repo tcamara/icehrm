@@ -1,8 +1,8 @@
 {
 "label":"Basic Information",
 "menu":"Personal Information",
-"order":"1",
-
+"order":"2",
+"icon":"fa-user",
 "user_levels":["Admin","Manager","Employee"],
 
 "permissions":

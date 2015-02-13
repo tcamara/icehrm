@@ -1,8 +1,8 @@
 {
-"label":"Jobs",
+"label":"Job Details Setup",
 "menu":"Admin",
 "order":"3",
-
+"icon":"fa-columns",
 "user_levels":["Admin"],
 
 "permissions":

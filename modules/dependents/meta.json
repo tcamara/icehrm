@@ -2,7 +2,7 @@
 "label":"Dependents",
 "menu":"Personal Information",
 "order":"5",
-
+"icon":"fa-sliders",
 "user_levels":["Admin","Manager","Employee"],
 
 "permissions":

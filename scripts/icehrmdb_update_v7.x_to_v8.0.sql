@@ -14,3 +14,21 @@ REPLACE INTO `Reports` (`id`, `name`, `details`, `parameters`, `query`, `paramOr
 
 INSERT INTO `Settings` (`name`, `value`, `description`, `meta`) VALUES
 ('Instance: Key', '',  'This can be generated from http://icehrm.com/generateInstanceKey.php','');
+
+ALTER TABLE `LeaveTypes` ADD COLUMN `carried_forward_percentage` int(11) NULL default 0;
+ALTER TABLE `LeaveTypes` ADD COLUMN `carried_forward_leave_availability` int(11) NULL default 365;
+ALTER TABLE `LeaveTypes` ADD COLUMN `propotionate_on_joined_date` enum('No','Yes') default 'No';
+
+ALTER TABLE `LeaveRules` ADD COLUMN `carried_forward_percentage` int(11) NULL default 0;
+ALTER TABLE `LeaveRules` ADD COLUMN `carried_forward_leave_availability` int(11) NULL default 365;
+ALTER TABLE `LeaveRules` ADD COLUMN `propotionate_on_joined_date` enum('No','Yes') default 'No';
+
+
+UPDATE `LeaveTypes` set carried_forward_percentage = 100;
+UPDATE `LeaveTypes` set carried_forward_leave_availability = 365;
+UPDATE `LeaveTypes` set propotionate_on_joined_date = 'Yes';
+
+UPDATE `LeaveRules` set carried_forward_percentage = 100;
+UPDATE `LeaveRules` set carried_forward_leave_availability = 365;
+UPDATE `LeaveRules` set propotionate_on_joined_date = 'Yes';
+

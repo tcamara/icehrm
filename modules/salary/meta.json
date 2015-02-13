@@ -2,7 +2,7 @@
 "label":"Salary",
 "menu":"Personal Information",
 "order":"4",
-
+"icon":"fa-calculator",
 "user_levels":["Admin","Manager","Employee"],
 
 "permissions":

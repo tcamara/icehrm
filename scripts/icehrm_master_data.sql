@@ -764,17 +764,8 @@ INSERT INTO `Educations` (`id`, `name`, `description`) VALUES
 (4, 'Doctorate', 'Doctorate');
 
 INSERT INTO `HoliDays` (`id`, `name`, `dateh`, `status`) VALUES
-(1, 'New Year''s Day', '2014-01-01', 'Full Day'),
-(2, 'Chinese New Year', '2014-02-10', 'Full Day'),
-(3, 'Chinese New Year', '2014-02-11', 'Full Day'),
-(4, 'Good Friday', '2014-03-29', 'Full Day'),
-(5, 'Labour Day', '2014-05-01', 'Full Day'),
-(6, 'Vesak Day', '2014-05-24', 'Full Day'),
-(7, 'Hari Raya', '2014-08-08', 'Full Day'),
-(8, 'Singapore National Day', '2014-08-09', 'Full Day'),
-(9, 'Hari Raya Haji', '2014-10-15', 'Full Day'),
-(10, 'Deepavali', '2014-11-04', 'Full Day'),
-(11, 'Christmas Day', '2014-12-25', 'Full Day');
+(1, 'New Year''s Day', '2015-01-01', 'Full Day'),
+(2, 'Christmas Day', '2015-12-25', 'Full Day');
 
 
 INSERT INTO `JobTitles` (`id`, `code`, `name`, `description`, `specification`) VALUES

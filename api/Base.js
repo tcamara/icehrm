@@ -274,7 +274,7 @@ IceHRMBase.method('callFunction', function (callback, cbParams) {
 IceHRMBase.method('getTableTopButtonHtml', function() {
 	var html = "";
 	if(this.getShowAddNew()){
-		html = '<button onclick="modJs.renderForm();return false;" class="btn btn-small btn-primary">Add New <i class="fa fa-plus"></i></button>';
+		html = '<button onclick="modJs.renderForm();return false;" class="btn btn-small btn-primary">'+this.getAddNewLabel()+' <i class="fa fa-plus"></i></button>';
 	}
 	
 	if(this.getFilters() != null){
@@ -329,7 +329,7 @@ IceHRMBase.method('createTable', function(elementId) {
 	}
 	
 	var html = "";
-	html = this.getTableTopButtonHtml()+'<div class="box-body table-responsive"><table cellpadding="0" cellspacing="0" border="0" class="table table-bordered table-striped" id="grid"></table></div>';
+	html = this.getTableTopButtonHtml()+'<div class="box-body table-responsive"><table cellpadding="0" cellspacing="0" border="0" class="table table-striped" id="grid"></table></div>';
 	/*
 	if(this.getShowAddNew()){
 		html = this.getTableTopButtonHtml()+'<div class="box-body table-responsive"><table cellpadding="0" cellspacing="0" border="0" class="table table-bordered table-striped" id="grid"></table></div>';
@@ -388,7 +388,7 @@ IceHRMBase.method('createTableServer', function(elementId) {
 	headers.push({ "sTitle": "", "sClass": "center" });
 	
 	var html = "";
-	html = this.getTableTopButtonHtml()+'<div class="box-body table-responsive"><table cellpadding="0" cellspacing="0" border="0" class="table table-bordered table-striped" id="grid"></table></div>';
+	html = this.getTableTopButtonHtml()+'<div class="box-body table-responsive"><table cellpadding="0" cellspacing="0" border="0" class="table table-striped" id="grid"></table></div>';
 	/*
 	if(this.getShowAddNew()){
 		html = this.getTableTopButtonHtml()+'<div class="box-body table-responsive"><table cellpadding="0" cellspacing="0" border="0" class="table table-bordered table-striped" id="grid"></table></div>';
@@ -1077,6 +1077,10 @@ IceHRMBase.method('clearDeleteParams', function() {
 
 IceHRMBase.method('getShowAddNew', function() {
 	return this.showAddNew;
+});
+
+IceHRMBase.method('getAddNewLabel', function() {
+	return "Add New";
 });
 
 IceHRMBase.method('setShowAddNew', function(showAddNew) {

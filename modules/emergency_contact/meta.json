@@ -2,7 +2,7 @@
 "label":"Emergency Contacts",
 "menu":"Personal Information",
 "order":"6",
-
+"icon":"fa-phone-square",
 "user_levels":["Admin","Manager","Employee"],
 
 "permissions":

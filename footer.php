@@ -105,7 +105,7 @@
 					refId = '<?="module_".str_replace(" ", "_", $userModules[0]['name'])?>';
 					$("[ref = '"+refId+"'] a").first().click();
 				<?php }?>
-			<?php } else{?>
+			<?php } else if($_REQUEST['n'] != "dashboard"){?>
 				refId = '<?=$_REQUEST['m']?>';
 				$("[ref = '"+refId+"'] a").first().click();
 			<?php }?>

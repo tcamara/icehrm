@@ -1,8 +1,8 @@
 {
 "label":"Monitor Attendance",
-"menu":"Admin",
-"order":"10",
-
+"menu":"Employees",
+"order":"8",
+"icon":"fa-clock-o",
 "user_levels":["Admin"],
 
 "permissions":

@@ -128,7 +128,7 @@ var modJs = modJsList['tabEmployeeTimeSheetAll'];
 		<div class="control-group">
 			<label class="control-label" for="timesheet_status">Timesheet Status</label>
 			<div class="controls">
-			  	<select class="" type="text" id="timesheet_status" name="timesheet_status" value="">
+			  	<select class="" type="text" id="timesheet_status" name="timesheet_status">
 				  	<option value="Approved">Approved</option>
 				  	<option value="Pending">Pending</option>
 				  	<option value="Rejected">Rejected</option>

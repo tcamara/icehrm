@@ -311,6 +311,16 @@ class BaseService{
 			return $resp;
 		}
 		
+		if($isAdd){
+			if(empty($ele->created)){
+				$ele->created = date("Y-m-d H:i:s");
+			}
+		}
+		
+		if(empty($ele->updated)){
+			$ele->updated = date("Y-m-d H:i:s");
+		}
+		
 		$ok = $ele->Save();
 		if(!$ok){
 			
@@ -372,7 +382,6 @@ class BaseService{
 			
 			$this->audit(IceConstants::AUDIT_DELETE, "Deleted an object in ".$table." [id:".$ele->id."]");
 		}
-		
 		
 		if(isset($fileFields[$table])){
 			foreach($fileFields[$table] as $k=>$v){

@@ -1,8 +1,8 @@
 {
-"label":"Projects",
+"label":"Projects/Client Setup",
 "menu":"Admin",
 "order":"5",
-
+"icon":"fa-list-alt",
 "user_levels":["Admin","Manager"],
 
 "permissions":

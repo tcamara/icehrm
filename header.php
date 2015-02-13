@@ -382,7 +382,7 @@ $meta = json_decode(file_get_contents(MODULE_PATH."/meta.json"),true);
 	                                    <li>
 	                                    	<a target="_bloank" href="http://blog.icehrm.com/"><h5>Administrators' Guide</h5></a>
 	                                    	<a target="_bloank" href="https://bitbucket.org/thilina/icehrm-opensource/issues?status=new&status=open"><h5>Support/Bug Reporting</h5></a>
-	                                    	<a href="#" onclick="modJs.showMessage('About','<p>iCE Hrm - Human Resource Management<br/>Version 8.3<br/>Release Date: 2015/01/08</p>')"><h5>About</h5></a>
+	                                    	<a href="#" onclick="modJs.showMessage('About','<p>iCE Hrm - Human Resource Management<br/>Version 9.0<br/>Release Date: 2015/02/12</p>')"><h5>About</h5></a>
 	                                    </li>
 	                             </ul>
 	                        </li>
@@ -474,7 +474,7 @@ $meta = json_decode(file_get_contents(MODULE_PATH."/meta.json"),true);
 			            	<?php if(count($menu['menu']) == 0){continue;}?>
 			            	<li  class="treeview" ref="<?="admin_".str_replace(" ", "_", $menu['name'])?>">			       
 			            		<a href="#">
-                                	<i class="fa fa-th"></i></i> <span><?=$menu['name']?></span>
+                                	<i class="fa <?=!isset($mainIcons[$menu['name']])?"fa-th":$mainIcons[$menu['name']];?>"></i></i> <span><?=$menu['name']?></span>
                                 	<i class="fa fa-angle-left pull-right"></i>
                             	</a>
 			            	
@@ -482,7 +482,7 @@ $meta = json_decode(file_get_contents(MODULE_PATH."/meta.json"),true);
 				            	<?php foreach ($menu['menu'] as $item){?>
 					            		<li>
 					            			<a href="<?=CLIENT_BASE_URL?>?g=admin&n=<?=$item['name']?>&m=<?="admin_".str_replace(" ", "_", $menu['name'])?>">
-					            			<i class="fa fa-angle-double-right"></i> <?=$item['label']?>
+					            			<i class="fa <?=!isset($item['icon'])?"fa-angle-double-right":$item['icon']?>"></i> <?=$item['label']?>
 					            			</a>
 					            		</li>
 				            	<?php }?>
@@ -499,7 +499,7 @@ $meta = json_decode(file_get_contents(MODULE_PATH."/meta.json"),true);
 			            	<?php if(count($menu['menu']) == 0){continue;}?>
 			            	<li  class="treeview" ref="<?="module_".str_replace(" ", "_", $menu['name'])?>">			       
 			            		<a href="#">
-                                	<i class="fa fa-th"></i></i> <span><?=$menu['name']?></span>
+                                	<i class="fa <?=!isset($mainIcons[$menu['name']])?"fa-th":$mainIcons[$menu['name']];?>"></i></i> <span><?=$menu['name']?></span>
                                 	<i class="fa fa-angle-left pull-right"></i>
                             	</a>
 			            	
@@ -507,7 +507,7 @@ $meta = json_decode(file_get_contents(MODULE_PATH."/meta.json"),true);
 				            	<?php foreach ($menu['menu'] as $item){?>
 				            		<li>
 				            			<a href="<?=CLIENT_BASE_URL?>?g=modules&n=<?=$item['name']?>&m=<?="module_".str_replace(" ", "_", $menu['name'])?>">
-				            			<i class="fa fa-angle-double-right"></i> <?=$item['label']?>
+				            			<i class="fa <?=!isset($item['icon'])?"fa-angle-double-right":$item['icon']?>"></i> <?=$item['label']?>
 				            			</a>
 				            		</li>
 				            	<?php }?>

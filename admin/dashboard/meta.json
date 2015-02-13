@@ -1,8 +1,8 @@
 {
 "label":"Dashboard",
 "menu":"Admin",
-"order":"11",
-
+"order":"1",
+"icon":"fa-desktop",
 "user_levels":["Admin"],
 
 "permissions":

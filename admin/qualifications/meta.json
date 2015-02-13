@@ -1,7 +1,8 @@
 {
-"label":"Qualifications",
+"label":"Qualifications Setup",
 "menu":"Admin",
 "order":"4",
+"icon":"fa-check-square-o",
 
 "user_levels":["Admin","Manager"],
 

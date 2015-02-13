@@ -1,8 +1,8 @@
 {
 "label":"Document Management",
-"menu":"Admin",
-"order":"6",
-
+"menu":"Employees",
+"order":"2",
+"icon":"fa-files-o",
 "user_levels":["Admin"],
 
 "permissions":

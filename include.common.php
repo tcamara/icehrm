@@ -1,7 +1,9 @@
 <?php
 error_reporting(E_ERROR);
-$jsVersion = '8.1';
-$cssVersion = '8.1';
+$jsVersion = '9.0';
+$cssVersion = '9.0';
+
+define('TAGS_TO_PRESERVE', '');
 
 if (!function_exists('cleanParameters')) {
 	function cleanParameters($input){

@@ -4,32 +4,13 @@ include("server.includes.inc.php");
 if(empty($user)){
 	if(!empty($_REQUEST['username']) && !empty($_REQUEST['password'])){
 		$suser = null;
-		
-		if(isset($proVersion) && !empty($proVersion)){
-			if($proVersion->isSSOLoginUser()){
-				$suser = $proVersion->getSSOLoginUser();
-			}
-			
-			if($proVersion->isAccountLocked()->getStatus() != "SUCCESS"){
-				$suser = new User();
-				$suser->Load("username = ? or email = ?",array($_REQUEST['username'],$_REQUEST['username']));
-				if($suser->user_level == "Admin"){
-					header("Location:".CLIENT_BASE_URL."login.php?f=1&fm=: Your account is locked. Please send an email to icehrm@gamonoid.com activate your account.");
-					exit();
-				}else{
-					header("Location:".CLIENT_BASE_URL."login.php?f=1&fm=: Your account is locked. Please contact administrator.");
-					exit();
-				}
-				
-			}
-		}
-		
 		$ssoUserLoaded = false;
+		
+		include 'login.com.inc.php';
+		
 		if(empty($suser)){
 			$suser = new User();
 			$suser->Load("(username = ? or email = ?) and password = ?",array($_REQUEST['username'],$_REQUEST['username'],md5($_REQUEST['password'])));
-		}else{
-			$ssoUserLoaded = true;
 		}
 		
 		if($suser->password == md5($_REQUEST['password']) || $ssoUserLoaded){

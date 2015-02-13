@@ -190,6 +190,11 @@ EmployeeTimeSheetAdapter.method('createPreviousTimesheetFailCallBack', function(
 
 EmployeeTimeSheetAdapter.method('changeTimeSheetStatusWithId', function(id, status) {
 	
+	if(status == "" || status ==null || status == undefined){
+		this.showMessage("Status Error","Please select a status");
+		return;
+	}
+	
 	object = {"id":id,"status":status};
 	
 	var reqJson = JSON.stringify(object);
