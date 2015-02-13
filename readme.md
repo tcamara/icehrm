@@ -26,7 +26,7 @@ Release note v9.0
 Update icehrm v8.4 to v9.0
 --------------------------
  * Make a backup of your icehrm db
- * Run db script "icehrmdb_update_v8.4_to_v9.0.sql" which can be found inside script folfer of icehrm_v9.0
+ * Run db script "icehrmdb_update_v8.4_to_v9.0.sql" which can be found inside script folder of icehrm_v9.0
  * remove all folders except app folder in icehrm root folder
  * copy all folders except app folder from new installation to icehrm root folder
  
