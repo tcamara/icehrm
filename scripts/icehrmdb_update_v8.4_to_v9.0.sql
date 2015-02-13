@@ -1,4 +1,6 @@
 
+ALTER TABLE  `Modules` ADD  `icon` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL AFTER  `name`;
+
 ALTER TABLE  `LeaveTypes` CHANGE  `default_per_year`  `default_per_year` decimal(10,3) NOT NULL;
 
 ALTER TABLE  `EmployeeLeaveDays` CHANGE  `leave_type`  `leave_type` enum('Full Day','Half Day - Morning','Half Day - Afternoon','1 Hour - Morning','2 Hours - Morning','3 Hours - Morning','1 Hour - Afternoon','2 Hours - Afternoon','3 Hours - Afternoon') NOT NULL;

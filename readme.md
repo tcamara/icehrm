@@ -17,6 +17,37 @@ Once the application is installed use the username = admin and password = admin 
 
 Note: Please rename or delete the install folder (<ice hrm root>/app/install) since it could pose a security threat to your iCE Hrm instance.
 
+Release note v9.0
+-----------------
+### Features
+ *New user interface
+ *Decimal leave counts supported
+ 
+Update icehrm v8.4 to v9.0
+--------------------------
+ * Make a backup of your icehrm db
+ * Run db script "icehrmdb_update_v8.4_to_v9.0.sql" which can be found inside script folfer of icehrm_v9.0
+ * remove all folders except app folder in icehrm root folder
+ * copy all folders except app folder from new installation to icehrm root folder
+ 
+ 
+Release note v8.4
+-----------------
+### Fixes
+ * Fix leave carry forward rounding issues
+ * Fix issue: select2 default value not getting set for select2
+ * Fix issue: email not sent when admin changing leave status
+
+Release note v8.3
+-----------------
+### Fixes
+* Fix user table issue on windows, this will resolve errors such as: (Note that this fix has no effect on unix based installations)
+ * Admin not able to view user uploaded documents
+ * Admin not able to upload documants for users
+ * Admin can not view employee attendance records
+ * Employee projects can not be added
+
+
 Update icehrm v8.2 to v8.3
 --------------------------
 

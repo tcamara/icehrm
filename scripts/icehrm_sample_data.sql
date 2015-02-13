@@ -44,10 +44,6 @@ INSERT INTO `EmployeeEducations` (`id`, `education_id`, `employee`, `institute`,
 (1, 1, 1, 'National University of Turky', '2004-02-03', '2006-06-13'),
 (2, 1, 2, 'MIT', '1995-02-21', '1999-10-12');
 
-INSERT INTO `EmployeeImmigrations` (`id`, `employee`, `document`, `doc_number`, `issued`, `expiry`, `status`, `details`) VALUES
-(1, 1, 'Passport', '784642SW', '2010-06-22', '2019-07-15', '', ''),
-(2, 1, 'Visa', '53608231D', '2010-07-08', '2016-12-07', 'Singapore Employment', 'P2'),
-(3, 2, 'Visa', '543-8TR', '1994-02-15', '2045-07-26', 'PR', '');
 
 INSERT INTO `EmployeeLanguages` (`id`, `language_id`, `employee`, `reading`, `speaking`, `writing`, `understanding`) VALUES
 (1, 1, 1, 'Full Professional Proficiency', 'Full Professional Proficiency', 'Full Professional Proficiency', 'Native or Bilingual Proficiency'),
