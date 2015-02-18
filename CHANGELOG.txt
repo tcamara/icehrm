@@ -1,3 +1,8 @@
+Release note v9.1
+-----------------
+### Fixes
+ *Add missing S3FileSystem class
+ 
 Release note v9.0
 -----------------
 ### Features

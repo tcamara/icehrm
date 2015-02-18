@@ -2,7 +2,7 @@
 "label":"Loans",
 "menu":"Loans",
 "order":"1",
-
+"icon":"fa-shield",
 "user_levels":["Admin","Manager","Employee"],
 
 "permissions":

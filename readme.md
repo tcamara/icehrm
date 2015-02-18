@@ -17,6 +17,12 @@ Once the application is installed use the username = admin and password = admin 
 
 Note: Please rename or delete the install folder (<ice hrm root>/app/install) since it could pose a security threat to your iCE Hrm instance.
 
+Release note v9.1
+-----------------
+### Fixes
+ *Add missing S3FileSystem class
+
+
 Release note v9.0
 -----------------
 ### Features

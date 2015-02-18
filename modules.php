@@ -82,6 +82,7 @@ $ams = scandir(CLIENT_PATH.'/admin/');
 $currentLocation = 0;
 foreach($ams as $am){
 	if(is_dir(CLIENT_PATH.'/admin/'.$am) && $am != '.' && $am != '..'){
+		error_log(CLIENT_PATH.'/admin/'.$am.'/meta.json');
 		$meta = json_decode(file_get_contents(CLIENT_PATH.'/admin/'.$am.'/meta.json'));
 		includeModuleManager('admin',$am);
 		$arr = array();
@@ -153,6 +154,7 @@ $userModulesTemp = array();
 $ams = scandir(CLIENT_PATH.'/modules/');
 foreach($ams as $am){
 	if(is_dir(CLIENT_PATH.'/modules/'.$am) && $am != '.' && $am != '..'){
+		error_log(CLIENT_PATH.'/modules/'.$am.'/meta.json');
 		$meta = json_decode(file_get_contents(CLIENT_PATH.'/modules/'.$am.'/meta.json'));
 		includeModuleManager('modules',$am);
 		$arr = array();
