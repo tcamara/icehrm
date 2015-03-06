@@ -20,14 +20,15 @@ Note: Please rename or delete the install folder (<ice hrm root>/app/install) si
 Release note v9.1
 -----------------
 ### Fixes
- *Add missing S3FileSystem class
+ * Add missing S3FileSystem class
+ * Fix issue: passing result of a method call directly into empty method is not supported in php v5.3
 
 
 Release note v9.0
 -----------------
 ### Features
- *New user interface
- *Decimal leave counts supported
+ * New user interface
+ * Decimal leave counts supported
  
 Update icehrm v8.4 to v9.0
 --------------------------

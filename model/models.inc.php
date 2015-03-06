@@ -35,11 +35,19 @@ class ICEHRM_Record extends ADOdb_Active_Record{
 		return array("get","element");
 	}
 	
+	public function getAnonymousAccess(){
+		return array();
+	}
+	
 	public function getUserOnlyMeAccess(){
 		return array("get","element");
 	}
 	
 	public function getUserOnlyMeAccessField(){
+		return "employee";
+	}
+	
+	public function getUserOnlyMeAccessRequestField(){
 		return "employee";
 	}
 	

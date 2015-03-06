@@ -34,24 +34,6 @@ if(!empty($employeeSwitched)){
 }
 
 
-
-//Menu Icons
-$mainIcons = array();
-$mainIcons['Admin'] = 'fa-cubes';
-$mainIcons['Employees'] = 'fa-users';
-$mainIcons['System'] = 'fa-cogs';
-$mainIcons['Reports'] = 'fa-file-text';
-$mainIcons['Personal Information'] = 'fa-male';
-$mainIcons['Subordinates'] = 'fa-user';
-$mainIcons['Leaves'] = 'fa-calendar-o';
-$mainIcons['Time Management'] = 'fa-clock-o';
-$mainIcons['Documents'] = 'fa-files-o';
-$mainIcons['Training'] = 'fa-briefcase';
-$mainIcons['Loans'] = 'fa-list-alt';
-
-
-
-
 //read field templates
 $fieldTemplates = array();
 $fieldTemplates['hidden'] = file_get_contents(CLIENT_PATH.'/templates/fields/hidden.html');
@@ -65,10 +47,12 @@ $fieldTemplates['time'] = file_get_contents(CLIENT_PATH.'/templates/fields/time.
 $fieldTemplates['fileupload'] = file_get_contents(CLIENT_PATH.'/templates/fields/fileupload.html');
 $fieldTemplates['label'] = file_get_contents(CLIENT_PATH.'/templates/fields/label.html');
 $fieldTemplates['placeholder'] = file_get_contents(CLIENT_PATH.'/templates/fields/placeholder.html');
+$fieldTemplates['datagroup'] = file_get_contents(CLIENT_PATH.'/templates/fields/datagroup.html');
 
 $templates = array();
 $templates['formTemplate'] = file_get_contents(CLIENT_PATH.'/templates/form_template.html');
 $templates['filterTemplate'] = file_get_contents(CLIENT_PATH.'/templates/filter_template.html');
+$templates['datagroupTemplate'] = file_get_contents(CLIENT_PATH.'/templates/datagroup_template.html');
 
 
 //include module templates

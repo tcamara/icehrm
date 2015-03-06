@@ -82,7 +82,6 @@ $ams = scandir(CLIENT_PATH.'/admin/');
 $currentLocation = 0;
 foreach($ams as $am){
 	if(is_dir(CLIENT_PATH.'/admin/'.$am) && $am != '.' && $am != '..'){
-		error_log(CLIENT_PATH.'/admin/'.$am.'/meta.json');
 		$meta = json_decode(file_get_contents(CLIENT_PATH.'/admin/'.$am.'/meta.json'));
 		includeModuleManager('admin',$am);
 		$arr = array();
@@ -154,7 +153,6 @@ $userModulesTemp = array();
 $ams = scandir(CLIENT_PATH.'/modules/');
 foreach($ams as $am){
 	if(is_dir(CLIENT_PATH.'/modules/'.$am) && $am != '.' && $am != '..'){
-		error_log(CLIENT_PATH.'/modules/'.$am.'/meta.json');
 		$meta = json_decode(file_get_contents(CLIENT_PATH.'/modules/'.$am.'/meta.json'));
 		includeModuleManager('modules',$am);
 		$arr = array();
@@ -231,8 +229,10 @@ foreach ($userModulesTemp as $k=>$v){
 	ksort($userModulesTemp[$k]);	
 }
 
+$adminIcons = json_decode(file_get_contents(CLIENT_PATH.'/admin/meta.json'),true);
+$adminMenus = array_keys($adminIcons);
 
-$adminMenus = json_decode(file_get_contents(CLIENT_PATH.'/admin/meta.json'),true);
+
 $adminModules = array();
 $added = array();
 foreach($adminMenus as $menu){
@@ -251,7 +251,8 @@ foreach($adminModulesTemp as $k=>$v){
 	}
 }
 
-$userMenus = json_decode(file_get_contents(CLIENT_PATH.'/modules/meta.json'));
+$userIcons = json_decode(file_get_contents(CLIENT_PATH.'/modules/meta.json'),true);
+$userMenus = array_keys($userIcons);
 
 $userModules = array();
 $added = array();
@@ -263,6 +264,7 @@ foreach($userMenus as $menu){
 	}
 }
 
+$mainIcons = array_merge($adminIcons,$userIcons);
 
 foreach($userModulesTemp as $k=>$v){
 	if(!in_array($k, $added)){
