@@ -706,6 +706,7 @@ INSERT INTO `Settings` (`name`, `value`, `description`, `meta`) VALUES
 ('Files: Amazone S3 Secret for File Upload', '',  'Please provide S3 Secret for uploading files',''),
 ('Files: S3 Bucket', '',  'Please provide S3 Bucket name for uploading files',''),
 ('Files: S3 Web Url', '',  'Please provide Url to the s3 bucket',''),
+('Attendance: Time-sheet Cross Check', '0',  'Only allow users to add an entry to a timesheet only if they have marked atteandance for the selected period','["value", {"label":"Value","type":"select","source":[["1","Yes"],["0","No"]]}]'),
 ('Instance: Key', '',  'This can be generated from http://icehrm.com/generateInstanceKey.php','');
 
 
