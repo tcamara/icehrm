@@ -17,6 +17,18 @@ Once the application is installed use the username = admin and password = admin 
 
 Note: Please rename or delete the install folder (<ice hrm root>/app/install) since it could pose a security threat to your iCE Hrm instance.
 
+Release note v10.1
+-----------------
+### Features
+ * Integration with ice-framework (http://githun.com/thilinah/ice-framework)
+ * Option for only allow users to add an entry to a timesheet only if they have marked atteandance for the selected period
+ * Restricting availability of leave types to employees using leave groups
+
+### Fixes
+ * Add missing S3FileSystem class
+ * Fix issue: passing result of a method call directly into empty method is not supported in php v5.3
+
+
 Release note v9.1
 -----------------
 ### Fixes
