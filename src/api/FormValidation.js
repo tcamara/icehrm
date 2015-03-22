@@ -34,7 +34,7 @@ function FormValidation(formId,validateAll,options) {
 	
 	this.settings = jQuery.extend(this.settings,options);
 	
-	this.inputTypes = new Array( "text",  "radio",  "checkbox",  "file", "password",  "select-one",  "textarea","fileupload");
+	this.inputTypes = new Array( "text",  "radio",  "checkbox",  "file", "password",  "select-one","select-multi",  "textarea","fileupload");
 
 	this.validator = {
 			
@@ -173,7 +173,7 @@ FormValidation.method('checkValues' , function(options) {
 	    		
 	    		inputValue = null;
 	    		if(type == "radio" || type == "checkbox"){
-	    			inputValue = $("input[name='" + name + "']:checked").val()
+	    			inputValue = $("input[name='" + name + "']:checked").val();
 	    		}else if(inputObject.hasClass('select2Field')){
 	    			if($('#'+id).select2('data') != null && $('#'+id).select2('data') != undefined){
 	    				inputValue = $('#'+id).select2('data').id;
@@ -181,6 +181,17 @@ FormValidation.method('checkValues' , function(options) {
 	    				inputValue = "";
 	    			}
 	    			
+	    		}else if(inputObject.hasClass('select2Multi')){
+	    			if($('#'+id).select2('data') != null && $('#'+id).select2('data') != undefined){
+	    				inputValueObjects = $('#'+id).select2('data');
+	    				inputValue = [];
+	    				for(var i=0;i<inputValueObjects.length;i++){
+	    					inputValue.push(inputValueObjects[i].id);
+	    				}
+	    				inputValue = JSON.stringify(inputValue);
+	    			}else{
+	    				inputValue = "";
+	    			}	
 	    		}else{
 	    			inputValue = inputObject.val();
 	    		}

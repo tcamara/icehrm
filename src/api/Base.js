@@ -137,7 +137,7 @@ IceHRMBase.method('initFieldMasterData' , function(callback, loadAllCallback) {
 	if(filterFields != null){
 		for(var j=0;j<filterFields.length;j++){
 			values = this.getMetaFieldValues(filterFields[j][0],fields);
-			if(values == null || (values['type']!= "select" && values['type']!= "select2")){
+			if(values == null || (values['type']!= "select" && values['type']!= "select2" && values['type']!= "select2multi")){
 				fields.push(filterFields[j]);
 			}
 		}
@@ -687,7 +687,7 @@ IceHRMBase.method('getFilterString', function(filters) {
 			values = this.getMetaFieldValues(prop,filterFields);
 			
 			str += values['label']+" = ";
-			if((values['type'] == 'select' || values['type'] == 'select2')){
+			if((values['type'] == 'select' || values['type'] == 'select2' || values['type'] == 'select2multi')){
 				
 				if(values['remote-source']!= undefined && values['remote-source']!= null){
 					rmf = values['remote-source'];
@@ -789,6 +789,14 @@ IceHRMBase.method('showFilters', function(object) {
 	$tempDomObj.find('.select2Field').each(function() {
 		$(this).select2().select2('val', $(this).find("option:eq(0)").val());
 	});
+	
+	$tempDomObj.find('.select2Multi').each(function() {
+		$(this).select2().on("change",function(e){
+			var parentRow = $(this).parents(".row");
+			var height = parentRow.find(".select2-choices").height();
+			parentRow.height(parseInt(height));
+		});
+	});
 
 	//var tHtml = $tempDomObj.wrap('<div>').parent().html();
 	this.showDomElement("Edit",$tempDomObj,null,null,true);
@@ -870,6 +878,15 @@ IceHRMBase.method('renderForm', function(object) {
 	//$tempDomObj.find('.select2Field').select2();
 	$tempDomObj.find('.select2Field').each(function() {
 		$(this).select2().select2('val', $(this).find("option:eq(0)").val());
+		
+	});
+	
+	$tempDomObj.find('.select2Multi').each(function() {
+		$(this).select2().on("change",function(e){
+			var parentRow = $(this).parents(".row");
+			var height = parentRow.find(".select2-choices").height();
+			parentRow.height(parseInt(height));
+		});
 		
 	});
 	
@@ -1026,7 +1043,14 @@ IceHRMBase.method('showDataGroup', function(field, object) {
 	});
 
 	
-	
+	$tempDomObj.find('.select2Multi').each(function() {
+		$(this).select2().on("change",function(e){
+			var parentRow = $(this).parents(".row");
+			var height = parentRow.find(".select2-choices").height();
+			parentRow.height(parseInt(height));
+		});
+	});
+
 	
 	
 	this.currentDataGroupField = field;
@@ -1278,6 +1302,21 @@ IceHRMBase.method('fillForm', function(object, formId, fields) {
 				object[fields[i][0]] = "NULL";
 			}
 			$(formId + ' #'+fields[i][0]).select2('val',object[fields[i][0]]);
+			
+		}else if(fields[i][1].type == 'select2multi'){
+			//TODO - SM
+			if(object[fields[i][0]] == undefined || object[fields[i][0]] == null || object[fields[i][0]] == ""){
+				object[fields[i][0]] = "NULL";
+			}
+			
+			var msVal = [];
+			if(object[fields[i][0]] != undefined && object[fields[i][0]] != null && object[fields[i][0]] != ""){
+				try{
+					msVal = JSON.parse(object[fields[i][0]]);
+				}catch(e){}
+			}
+			
+			$(formId + ' #'+fields[i][0]).select2('val',msVal);
 		
 		}else if(fields[i][1].type == 'datagroup'){
 			var html = this.dataGroupToHtml(object[fields[i][0]],fields[i]);
@@ -1308,7 +1347,7 @@ IceHRMBase.method('renderFormField', function(field) {
 		t = t.replace(/_id_/g,field[0]);
 		t = t.replace(/_label_/g,field[1].label);
 		
-	}else if(field[1].type == 'select' || field[1].type == 'select2'){
+	}else if(field[1].type == 'select' || field[1].type == 'select2' || field[1].type == 'select2multi'){
 		t = t.replace(/_id_/g,field[0]);
 		t = t.replace(/_label_/g,field[1].label);
 		if(field[1]['source'] != undefined && field[1]['source'] != null ){
