@@ -17,8 +17,9 @@ if (!class_exists('LeavesModulesManager')) {
 		}
 
 		public function setupModuleClassDefinitions(){
-			
-			$this->addModelClass('EmployeeLeave');
+			if(defined('MODULE_TYPE') && MODULE_TYPE != 'admin'){
+				$this->addModelClass('EmployeeLeave');
+			}
 			$this->addModelClass('EmployeeLeaveDay');
 			$this->addModelClass('EmployeeLeaveLog');
 			
