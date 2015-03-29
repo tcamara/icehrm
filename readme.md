@@ -21,6 +21,8 @@ Release note v10.1
 -----------------
 ### Features
  * Integration with ice-framework (http://githun.com/thilinah/ice-framework)
+ * Travel module
+ * Meta data module 
  * Option for only allow users to add an entry to a timesheet only if they have marked atteandance for the selected period
  * Restricting availability of leave types to employees using leave groups
 
