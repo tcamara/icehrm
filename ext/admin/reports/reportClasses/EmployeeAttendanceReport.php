@@ -18,10 +18,19 @@ FROM Attendance at";
 	}
 	
 	public function getWhereQuery($request){
-		if(($request['employee'] != "NULL" && !empty($request['employee']))){
-			$query = "where employee = ? and in_time >= ? and out_time <= ? order by in_time desc;";
-			$params = array(
-					$request['employee'],	
+		
+		$employeeList = array();
+		if(!empty($request['employee'])){
+			$employeeList = json_decode($request['employee'],true);
+		}
+		
+		if(in_array("NULL", $employeeList) ){
+			$employeeList = array();
+		}
+		
+		if(!empty($employeeList)){
+			$query = "where employee in (".implode(",", $employeeList).") and in_time >= ? and out_time <= ? order by in_time desc;";
+			$params = array(	
 					$request['date_start']." 00:00:00",	
 					$request['date_end']." 23:59:59",	
 			);
@@ -32,6 +41,9 @@ FROM Attendance at";
 					$request['date_end']." 23:59:59",	
 			);
 		}
+		
+		LogManager::getInstance()->info("Query:".$query);
+		LogManager::getInstance()->info("Params:".json_encode($params));
 		
 		return array($query, $params);
 	}

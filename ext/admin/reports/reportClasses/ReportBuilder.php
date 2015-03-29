@@ -13,6 +13,8 @@ abstract class ReportBuilder implements ReportBuilderInterface{
 	
 	protected function execute($report, $query, $parameters){
 		$report->DB()->SetFetchMode(ADODB_FETCH_ASSOC);
+		LogManager::getInstance()->debug("Query: ".$query);
+		LogManager::getInstance()->debug("Parameters: ".json_encode($parameters));
 		$rs = $report->DB()->Execute($query,$parameters);
 		if(!$rs){
 			LogManager::getInstance()->info($report->DB()->ErrorMsg());
@@ -34,7 +36,7 @@ abstract class ReportBuilder implements ReportBuilderInterface{
 				$reportNamesFilled = true;
 			}else{
 				foreach ($row as $name=> $value){
-					$reportData[count($reportData)-1][] = $value;
+					$reportData[count($reportData)-1][] = $this->transformData($name, $value);
 				}
 			}
 		}
@@ -48,4 +50,8 @@ abstract class ReportBuilder implements ReportBuilderInterface{
 	abstract public function getWhereQuery($request);
 	
 	abstract public function getMainQuery();
+	
+	public function transformData($name, $value){
+		return $value;	
+	}
 }

@@ -23,18 +23,27 @@ from EmployeeLeaves lv";
 	}
 	
 	public function getWhereQuery($request){
-		if(($request['employee'] != "NULL" && !empty($request['employee'])) && ($request['status'] != "NULL" && !empty($request['status']))){
-			$query = "where employee = ? and date_start >= ? and date_end <= ? and status = ?;";
-			$params = array(
-					$request['employee'],	
+		
+		$employeeList = array();
+		if(!empty($request['employee'])){
+			$employeeList = json_decode($request['employee'],true);
+		}
+		
+		if(in_array("NULL", $employeeList) ){
+			$employeeList = array();
+		}
+		
+		
+		if(!empty($employeeList) && ($request['status'] != "NULL" && !empty($request['status']))){
+			$query = "where employee in (".implode(",", $employeeList).") and date_start >= ? and date_end <= ? and status = ?;";
+			$params = array(	
 					$request['date_start'],	
 					$request['date_end'],	
 					$request['status']
 			);
-		}else if(($request['employee'] != "NULL" && !empty($request['employee']))){
-			$query = "where employee = ? and date_start >= ? and date_end <= ?;";
+		}else if(!empty($employeeList)){
+			$query = "where employee in (".implode(",", $employeeList).") and date_start >= ? and date_end <= ?;";
 			$params = array(
-					$request['employee'],
 					$request['date_start'],
 					$request['date_end']
 			);
@@ -52,6 +61,9 @@ from EmployeeLeaves lv";
 					$request['date_end']
 			);
 		}
+		
+		LogManager::getInstance()->info("Query:".$query);
+		LogManager::getInstance()->info("Params:".json_encode($params));
 		
 		return array($query, $params);
 	}
