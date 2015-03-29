@@ -20,7 +20,7 @@ Note: Please rename or delete the install folder (<ice hrm root>/app/install) si
 Release note v10.1
 -----------------
 ### Features
- * Integration with ice-framework (http://githun.com/thilinah/ice-framework)
+ * Integration with ice-framework (http://github.com/thilinah/ice-framework)
  * Travel module
  * Meta data module 
  * Option for only allow users to add an entry to a timesheet only if they have marked atteandance for the selected period
