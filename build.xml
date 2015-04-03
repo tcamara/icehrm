@@ -5,6 +5,8 @@
  <property name="destination" value="${basedir}/build/app"/>
  <property name="origin" value="${basedir}/src"/>
  <property environment="env"/>
+ <property name="env.appname" value="icehrm"/>
+ <property name="env.Version" value="dev"/>
 
  <!-- Uncomment the following when the tools are in ${basedir}/vendor/bin -->
  <!-- <property name="toolsdir" value="${basedir}/vendor/bin/"/> -->
@@ -13,10 +15,15 @@
          depends="prepare,lint,phploc-ci,pdepend,phpmd-ci,phpcs-ci,phpcpd-ci,phpunit,phpdox"
          description=""/>
 -->
-	
+
+		
 	
  <target name="build"
          depends="prepare,lint,phpunit,copyapp,release"
+         description=""/>
+	
+<target name="buildlocal"
+         depends="prepare,copyapp"
          description=""/>
 
  <target name="clean"
@@ -205,7 +212,7 @@
 
 
 <target name="copyapp"
-     depends="phpunit"
+     depends=""
      description="Copy generated files to QA app">
 	
 	<delete includeemptydirs="true">
