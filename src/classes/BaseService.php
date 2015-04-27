@@ -22,6 +22,15 @@ Original work Copyright (c) 2012 [Gamonoid Media Pvt. Ltd]
 Developer: Thilina Hasantha (thilina.hasantha[at]gmail.com / facebook.com/thilinah)
  */
 
+
+/**
+ * BaseService class serves as the core logic for managing the application and for handling most 
+ * of the tasks related to retriving and saving data. This can be referred within any module using
+ * BaseService::getInstance()
+ * 
+ @class BaseService
+ */
+
 class BaseService{
 	
 	var $nonDeletables = array();
@@ -42,14 +51,30 @@ class BaseService{
 	
 	}
 	
+	/**
+	 * Get the only instance created for BaseService
+	 * @method getInstance
+	 * @return {BaseService} BaseService object
+	 */
+	
 	public static function getInstance(){
 		if(empty(self::$me)){
 			self::$me = new BaseService();
 		}
-	
+
 		return self::$me;
 	}
 	
+	/**
+	 * Get an array of objects from database
+	 * @method get
+	 * @param $table {String} model class name of the table to retive data (e.g for Users table model class name is User)
+	 * @param $mappingStr {String} a JSON string to specify fields of the $table should be mapped to other tables (e.g {"profile":["Profile","id","first_name+last_name"]} : this is how the profile field in Users table is mapped to Profile table. In this case users profile field will get filled by Profile first name and last name. The original value in User->profile field will get moved to User->profile_id)
+	 * @param $filterStr {String} a JSON string to specify the ordering of the items (e.g {"job_title":"2","department":"2"}  - this will select only items having job_title = 2 and department = 2)
+	 * @param $orderBy {String} a string to specify the ordering (e.g in_time desc)
+	 * @param string $limit {String} a string to specify the limit (e.g limit 2)
+	 * @return {Array} an array of objects of type $table
+	 */
 	public function get($table,$mappingStr = null, $filterStr = null, $orderBy = null, $limit = null){
 		
 		if(!empty($mappingStr)){
@@ -103,7 +128,62 @@ class BaseService{
 		return $list;
 	}
 	
+	public function buildDefaultFilterQuery($filter){
+		$query = "";
+		$queryData = [];
+		foreach($filter as $k=>$v){
+			if(empty($v)){
+				continue;
+			}
+			$vArr = json_decode($v);
+			if(is_array($vArr)){
+				if(empty($vArr)){
+					continue;
+				}
+				$v = $vArr;
+				$length = count();
+				for($i=0; $i<$length; $i++){
+					$query.=$k." like ?";
+					
+					if($i == 0){
+						$query.=" and (";
+					}
+					
+					if($i < $length -1){
+						$query.=" or ";
+					}else{
+						$query.=")";
+					}
+					$queryData[] = "%".$v[$i]."%";
+				}
+					
+			}else{
+				if(!empty($v) && $v != 'NULL'){
+					$query.=" and ".$k."=?";
+					$queryData[] = $v;
+				}
+					
+			}
+				
+		}
+
+		return array($query, $queryData);
+	}
 	
+	/**
+	 * An extention of get method for the use of data tables with ability to search
+	 * @method getData
+	 * @param $table {String} model class name of the table to retive data (e.g for Users table model class name is User)
+	 * @param $mappingStr {String} a JSON string to specify fields of the $table should be mapped to other tables (e.g {"profile":["Profile","id","first_name+last_name"]} : this is how the profile field in Users table is mapped to Profile table. In this case users profile field will get filled by Profile first name and last name. The original value in User->profile field will get moved to User->profile_id)
+	 * @param $filterStr {String} a JSON string to specify the ordering of the items (e.g {"job_title":"2","department":"2"}  - this will select only items having job_title = 2 and department = 2)
+	 * @param $orderBy {String} a string to specify the ordering (e.g in_time desc)
+	 * @param string $limit {String} a string to specify the limit (e.g limit 2)
+	 * @param string $searchColumns {String} a JSON string to specify names of searchable fields (e.g ["id","employee_id","first_name","last_name","mobile_phone","department","gender","supervisor"])
+	 * @param string $searchTerm {String} a string to specify term to search
+	 * @param string $isSubOrdinates {Boolean} a Boolean to specify if we only need to retive subordinates. Any item is a subordinate item if the item has "profile" field defined and the value of "profile" field is equal to id of one of the subordinates of currenly logged in profile id. (Any Profile is a subordinate of curently logged in Profile if the supervisor field of a Profile is set to the id of currently logged in Profile)
+	 * @param string $skipProfileRestriction {Boolean} default if false - TODO - I'll explain this later
+	 * @return {Array} an array of objects of type $table
+	 */
 	public function getData($table,$mappingStr = null, $filterStr = null, $orderBy = null, $limit = null, $searchColumns = null, $searchTerm = null, $isSubOrdinates = false, $skipProfileRestriction = false){
 		if(!empty($mappingStr)){
 		$map = json_decode($mappingStr);
@@ -115,11 +195,24 @@ class BaseService{
 		if(!empty($filterStr)){
 			$filter = json_decode($filterStr);
 			if(!empty($filter)){
-				foreach($filter as $k=>$v){
-					$query.=" and ".$k."=?";
-					$queryData[] = $v;
-				}	
-			}	
+				LogManager::getInstance()->debug("Building filter query");
+				if(method_exists($obj,'getCustomFilterQuery')){
+					LogManager::getInstance()->debug("Method: getCustomFilterQuery exists");
+					$response = $obj->getCustomFilterQuery($filter);
+					$query = $response[0];
+					$queryData = $response[1];
+				}else{
+					LogManager::getInstance()->debug("Method: getCustomFilterQuery not found");
+					$defaultFilterResp = $this->buildDefaultFilterQuery($filter);	
+					$query = $defaultFilterResp[0];
+					$queryData = $defaultFilterResp[1];
+				}
+				
+				
+			}
+
+			LogManager::getInstance()->debug("Filter Query:".$query);
+			LogManager::getInstance()->debug("Filter Query Data:".json_encode($queryData));
 		}
 		
 		
@@ -182,6 +275,9 @@ class BaseService{
 		}	
 
 		
+		LogManager::getInstance()->debug("Data Load Query:"."1=1".$query.$orderBy.$limit);
+		LogManager::getInstance()->debug("Data Load Query Data:".json_encode($queryData));
+		
 		if(!empty($mappingStr) && count($map)>0){
 			$list = $this->populateMapping($list, $map);
 		}
@@ -189,6 +285,15 @@ class BaseService{
 		
 		return $list;
 	}
+	
+	
+	/**
+	 * Propulate field mappings for a given set of objects
+	 * @method populateMapping
+	 * @param $list {Array} array of model objects
+	 * @param $map {Array} an associative array of Mappings (e.g {"profile":["Profile","id","first_name+last_name"]})
+	 * @return {Array} array of populated objects
+	 */
 	
 	public function populateMapping($list,$map){
 		$listNew = array();
@@ -232,6 +337,16 @@ class BaseService{
 		}
 		return 	$item;
 	}
+	
+	/**
+	 * Retive one element from db
+	 * @method getElement
+	 * @param $table {String} model class name of the table to get data (e.g for Users table model class name is User)
+	 * @param $table {Integer} id of the item to get from $table 
+	 * @param $mappingStr {String} a JSON string to specify fields of the $table should be mapped to other tables (e.g {"profile":["Profile","id","first_name+last_name"]} : this is how the profile field in Users table is mapped to Profile table. In this case users profile field will get filled by Profile first name and last name. The original value in User->profile field will get moved to User->profile_id)
+	 * @param $skipSecurityCheck {Boolean} if true won't check whether the user has access to that object
+	 * @return {Object} an object of type $table
+	 */
 	
 	public function getElement($table,$id,$mappingStr = null, $skipSecurityCheck = false){
 		$obj = new $table();
@@ -287,6 +402,14 @@ class BaseService{
 		}
 		return null;
 	}
+	
+	/**
+	 * Add an element to a given table
+	 * @method addElement
+	 * @param $table {String} model class name of the table to add data (e.g for Users table model class name is User)
+	 * @param $obj {Array} an associative array with field names and values for the new object. If the object id is not empty an existing object will be updated
+	 * @return {Object} newly added or updated element of type $table
+	 */
 	
 	public function addElement($table,$obj){
 		$isAdd = true;
@@ -379,6 +502,13 @@ class BaseService{
 		return new IceResponse(IceResponse::SUCCESS,$ele);
 	}
 	
+	/**
+	 * Delete an element if not the $table and $id is defined as a non deletable
+	 * @method deleteElement
+	 * @param $table {String} model class name of the table to delete data (e.g for Users table model class name is User)
+	 * @param $id {Integer} id of the item to delete
+	 * @return NULL
+	 */
 	public function deleteElement($table,$id){
 		$fileFields = $this->fileFields;
 		$ele = new $table();
@@ -430,14 +560,36 @@ class BaseService{
 		return null;
 	}
 	
-	public function getFieldValues($table,$key,$value,$method){
+	/**
+	 * Get associative array of by retriving data from $table using $key field ans key and $value field as value. Mainly used for getting data for populating option lists of select boxes when adding and editing items
+	 * @method getFieldValues
+	 * @param $table {String} model class name of the table to get data (e.g for Users table model class name is User)
+	 * @param $key {String} key field name
+	 * @param $value {String} value field name (multiple fileds cam be concatinated using +) - e.g first_name+last_name
+	 * @param $method {String} if not empty, use this menthod to get only a selected set of objects from db instead of retriving all objects. This method should be defined in class $table and should return an array of objects of type $table
+	 * @return {Array} associative array
+	 */
+	
+	public function getFieldValues($table,$key,$value,$method,$methodParams = NULL){
 		
 		$values = explode("+", $value);
 		
 		$ret = array();
 		$ele = new $table();
-		if(!empty($method) && method_exists($ele,$method)){
-			$list = $ele->$method();
+		if(!empty($method)){
+			LogManager::getInstance()->debug("Call method for getFieldValues:".$method);
+			LogManager::getInstance()->debug("Call method params for getFieldValues:".json_decode($methodParams));
+			if(method_exists($ele,$method)){
+				if(!empty($methodParams)){
+					$list = $ele->$method(json_decode($methodParams));
+				}else{
+					$list = $ele->$method(array());
+				}
+			}else{
+				LogManager::getInstance()->debug("Could not find method:".$method." in Class:".$table);
+				$list = $ele->Find('1 = 1',array());
+			}
+			
 		}else{
 			$list = $ele->Find('1 = 1',array());
 		}
@@ -474,10 +626,18 @@ class BaseService{
 		$this->userTables = $userTables;	
 	}
 	
+	/**
+	 * Set the current logged in user
+	 * @method setCurrentUser
+	 * @param $currentUser {User} the current logged in user
+	 * @return None
+	 */
+	
 	public function setCurrentUser($currentUser){
 		$this->currentUser = $currentUser;	
 	}
 	
+
 	public function findError($error){
 		foreach($this->errros as $k=>$v){
 			if(strstr($error, $k)){
@@ -494,11 +654,22 @@ class BaseService{
 		return $error;
 	}
 	
+	/**
+	 * Get the currently logged in user from session
+	 * @method getCurrentUser
+	 * @return {User} currently logged in user from session
+	 */
+	
 	public function getCurrentUser(){
 		$user = SessionUtils::getSessionObject('user');
 		return $user;
 	}
 	
+	/**
+	 * Get the Profile id attached to currently logged in user. if the user is switched, this will return the id of switched Profile instead of currently logged in users Prifile id
+	 * @method getCurrentProfileId
+	 * @return {Integer}
+	 */
 	public function getCurrentProfileId(){
 		if (!class_exists('SessionUtils')) {
 			include (APP_BASE_PATH."include.common.php");
@@ -511,6 +682,24 @@ class BaseService{
 		}
 		return $adminEmpId;
 	}
+	
+	/**
+	 * Get User by profile id
+	 * @method getUserFromProfileId
+	 * @param $profileId {Integer} profile id
+	 * @return {User} user object
+	 */
+	
+	public function getUserFromProfileId($profileId){
+		$user = new User();
+		$signInMappingField = SIGN_IN_ELEMENT_MAPPING_FIELD_NAME;
+		$user->load($signInMappingField." = ?",array($profileId));
+		if($user->$signInMappingField == $profileId){
+			return $user;
+		}
+		return null;
+	}
+
 	
 	public function setCurrentAdminProfile($profileId){
 		if (!class_exists('SessionUtils')) {
@@ -628,7 +817,13 @@ class BaseService{
 		exit();
 	}
 	
-	
+	/**
+	 * Use user level security functions defined in model classes to check whether a given action type is allowed to be executed by the current user on a given object
+	 * @method checkSecureAccess
+	 * @param $type {String} Action type
+	 * @param $object {Object} object to test access
+	 * @return {Boolen} true or exit
+	 */
 	
 	public function checkSecureAccess($type,$object){
 		
@@ -670,16 +865,6 @@ class BaseService{
 	}
 	
 	
-	
-	public function getUserFromProfileId($profileId){
-		$user = new User();
-		$signInMappingField = SIGN_IN_ELEMENT_MAPPING_FIELD_NAME;
-		$user->load($signInMappingField." = ?",array($profileId));
-		if($user->$signInMappingField == $profileId){
-			return $user;	
-		}
-		return null;
-	}
 	
 	public function getInstanceId(){
 		$settings = new Setting();
@@ -760,13 +945,31 @@ class BaseService{
 		return "";
 	}
 	
+	/**
+	 * Set the audit manager
+	 * @method setAuditManager
+	 * @param $auditManager {AuditManager}
+	 */
+	
 	public function setAuditManager($auditManager){
 		$this->auditManager = $auditManager;
 	}
 	
+	/**
+	 * Set the NotificationManager
+	 * @method setNotificationManager
+	 * @param $notificationManager {NotificationManager}
+	 */
+	
 	public function setNotificationManager($notificationManager){
 		$this->notificationManager = $notificationManager;
 	}
+	
+	/**
+	 * Set the SettingsManager
+	 * @method setSettingsManager
+	 * @param $settingsManager {SettingsManager}
+	 */
 	
 	public function setSettingsManager($settingsManager){
 		$this->settingsManager = $settingsManager;
